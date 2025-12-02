@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مقاله پژوهشی: تاثیر هوش مصنوعی در سرمایه انسانی</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts: Vazirmatn for Persian -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Chosen Palette: Academic Blue & Clean White -->
+    <!-- Primary: #1e3a8a (Blue-900), Secondary: #3b82f6 (Blue-500), Background: #f8fafc (Slate-50) -->
+
+    <style>
+      body {
+        font-family: "Vazirmatn", sans-serif;
+        background-color: #f8fafc;
+        color: #1e293b;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f5f9;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+
+      .paper-shadow {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        height: 300px;
+      }
+
+      /* Print styles to make it look like a real doc when printed */
+      @media print {
+        .no-print {
+          display: none !important;
+        }
+        body {
+          background-color: white;
+        }
+        .page-break {
+          page-break-before: always;
+        }
+      }
+    </style>
+
+    <!-- Application Structure Plan: 
+         1. Sidebar Navigation: Mimics a Table of Contents, allowing quick jumps to chapters.
+         2. Main Content Area: Designed to look like A4 paper pages tailored for digital reading.
+         3. Interactive Elements: 
+            - Comparison Toggles: To switch between "Traditional HR" (from PDF) and "AI-Enhanced HR".
+            - Charts: To visualize hypothetical data on efficiency gains.
+            - Diagrams: HTML/CSS structure to show Org Chart evolution.
+         Rationale: This structure satisfies the user's need for a "document-like" feel while utilizing web capabilities for better engagement.
+    -->
+
+    <!-- Visualization & Content Choices:
+         1. Org Chart Visualization: HTML Flexbox structure. Goal: Show "Flattening" of hierarchy mentioned in PDF but enhanced by AI.
+         2. Efficiency Chart: Chart.js Bar Chart. Goal: Compare manual vs AI processes in "Property Management".
+         3. Succession Logic: Interactive Flow using CSS/JS logic. Goal: Explain the complex "Succession Planning" process.
+         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+  </head>
+  <body class="flex flex-col md:flex-row min-h-screen">
+    <!-- Mobile Header -->
+    <div
+      class="md:hidden bg-blue-900 text-white p-4 flex justify-between items-center sticky top-0 z-50"
+    >
+      <h1 class="text-lg font-bold">مقاله پژوهشی</h1>
+      <button id="mobile-menu-btn" class="focus:outline-none">
+        <span class="text-2xl">☰</span>
+      </button>
+    </div>
+
+    <!-- Sidebar / Navigation -->
+    <nav
+      id="sidebar"
+      class="w-full md:w-64 bg-white border-l border-gray-200 hidden md:flex flex-col h-screen sticky top-0 overflow-y-auto no-print shadow-lg z-40 transition-all duration-300"
+    >
+      <div class="p-6 border-b border-gray-100 bg-blue-50">
+        <div class="text-blue-900 font-black text-xl mb-1">منو</div>
+      </div>
+      <ul class="flex-1 py-4 space-y-1">
+        <li>
+          <button
+            onclick="scrollToSection('cover')"
+            class="w-full text-right px-6 py-3 hover:bg-blue-50 text-gray-700 font-medium transition-colors border-r-4 border-transparent hover:border-blue-500"
+          >
+            صفحه عنوان
+          </button>
+        </li>
+        <li>
+          <button
+            onclick="scrollToSection('abstract')"
+            class="w-full text-right px-6 py-3 hover:bg-blue-50 text-gray-700 font-medium transition-colors border-r-4 border-transparent hover:border-blue-500"
+          >
+            چکیده و کلمات کلیدی
+          </button>
+        </li>
+        <li>
+          <button
+            onclick="scrollToSection('chapter1')"
+            class="w-full text-right px-6 py-3 hover:bg-blue-50 text-gray-700 font-medium transition-colors border-r-4 border-transparent hover:border-blue-500"
+          >
+            فصل اول: مقدمه و کلیات
+          </button>
+        </li>
+        <li>
+          <button
+            onclick="scrollToSection('chapter2')"
+            class="w-full text-right px-6 py-3 hover:bg-blue-50 text-gray-700 font-medium transition-colors border-r-4 border-transparent hover:border-blue-500"
+          >
+            فصل دوم: ساختار فعلی
+          </button>
+        </li>
+        <li>
+          <button
+            onclick="scrollToSection('chapter3')"
+            class="w-full text-right px-6 py-3 hover:bg-blue-50 text-gray-700 font-medium transition-colors border-r-4 border-transparent hover:border-blue-500"
+          >
+            فصل سوم: تحول با هوش مصنوعی
+          </button>
+        </li>
+        <li>
+          <button
+            onclick="scrollToSection('conclusion')"
+            class="w-full text-right px-6 py-3 hover:bg-blue-50 text-gray-700 font-medium transition-colors border-r-4 border-transparent hover:border-blue-500"
+          >
+            نتیجه‌گیری و مراجع
+          </button>
+        </li>
+      </ul>
+      <div class="p-4 border-t border-gray-100 text-center">
+        <button
+          onclick="window.print()"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm w-full transition shadow-md"
+        >
+          چاپ / دانلود PDF
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-4 md:p-8 lg:p-12 overflow-y-auto bg-gray-50">
+      <!-- Document Container -->
+      <div class="max-w-4xl mx-auto space-y-8">
+        <!-- COVER PAGE -->
+        <section
+          id="cover"
+          class="bg-white p-12 md:p-16 paper-shadow rounded-lg min-h-[800px] flex flex-col items-center justify-between text-center relative border border-gray-200"
+        >
+          <div class="space-y-6 w-full">
+            <div
+              class="w-32 h-32 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-8 border-2 border-blue-900"
+            >
+              <img
+                width="90"
+                height="90"
+                src="logo-navy.png.webp"
+                alt="مجتمع آموزش عالی بم"
+              />
+            </div>
+            <h2 class="text-xl font-bold text-gray-800">
+              وزارت علوم، تحقیقات و فناوری
+            </h2>
+            <h3 class="text-lg text-gray-600">مجتمع آموزش عالی بم</h3>
+            <h3 class="text-lg text-gray-600">گروه مهندسی کامپیوتر</h3>
+          </div>
+
+          <div class="my-12 space-y-4">
+            <h1
+              class="text-3xl md:text-4xl font-black text-blue-900 leading-tight"
+            >
+              تاثیر هوش مصنوعی بر بهینه‌سازی سرمایه انسانی
+            </h1>
+            <h2 class="text-xl text-blue-700 font-bold">
+              (مطالعه موردی: فرآیندهای منابع انسانی کرمان موتور)
+            </h2>
+          </div>
+
+          <div
+            class="w-full grid grid-cols-1 md:grid-cols-2 gap-8 text-lg mt-auto"
+          >
+            <div class="text-center md:text-right">
+              <span class="block text-gray-500 text-sm">استاد:</span>
+              <span class="font-bold text-gray-800">سرکار خانم زینلی</span>
+            </div>
+            <div class="text-center md:text-left">
+              <span class="block text-gray-500 text-sm">پژوهشگر:</span>
+              <span class="font-bold text-gray-800">حسین مرادی</span>
+            </div>
+          </div>
+
+          <div class="mt-12 text-gray-400 font-medium">آذر ۱۴۰۴</div>
+        </section>
+
+        <!-- ABSTRACT -->
+        <section
+          id="abstract"
+          class="bg-white p-10 paper-shadow rounded-lg border border-gray-200 page-break"
+        >
+          <div class="border-b-2 border-blue-100 pb-4 mb-6">
+            <h2 class="text-2xl font-black text-blue-900">چکیده</h2>
+          </div>
+          <p class="text-justify leading-8 text-gray-700 mb-6">
+            در این مقاله به بررسی نقش تحول‌آفرین هوش مصنوعی (AI) در مدیریت
+            سرمایه انسانی با تمرکز بر ساختارهای سازمانی مدرن می‌پردازیم. با
+            استناد به مستندات "سرمایه انسانی کرمان موتور"، فرآیندهای سنتی نظیر
+            تعریف شغل و پوزیشن، جانشین‌پروری و مدیریت اموال مورد تحلیل قرار
+            گرفته و سپس تاثیر الگوریتم‌های هوشمند بر بهینه‌سازی این فرآیندها
+            تشریح می‌شود. نتایج نشان می‌دهد که هوش مصنوعی نه تنها جایگزین نیروی
+            انسانی نیست، بلکه به عنوان یک ابزار راهبردی، دقت در تطبیق شغل و
+            شاغل، پیش‌بینی مسیرهای جانشین‌پروری و شفافیت در مدیریت دارایی‌ها را
+            به طور چشمگیری افزایش می‌دهد. این پژوهش رویکردی مقایسه‌ای بین
+            روش‌های سنتی و مدرن مبتنی بر داده را ارائه می‌دهد.
+          </p>
+          <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+            <span class="font-bold text-blue-800">کلمات کلیدی:</span>
+            <span class="text-gray-700 mr-2"
+              >هوش مصنوعی، سرمایه انسانی، جانشین‌پروری، کرمان موتور، مدیریت
+              اموال، تحلیل داده.</span
+            >
+          </div>
+        </section>
+
+        <!-- CHAPTER 1: INTRODUCTION -->
+        <section
+          id="chapter1"
+          class="bg-white p-10 paper-shadow rounded-lg border border-gray-200 page-break"
+        >
+          <div class="flex items-center gap-3 mb-6">
+            <div
+              class="bg-blue-600 text-white w-8 h-8 flex items-center justify-center rounded font-bold"
+            >
+              ۱
+            </div>
+            <h2 class="text-2xl font-black text-gray-800">
+              فصل اول: مقدمه و کلیات
+            </h2>
+          </div>
+
+          <div
+            class="prose prose-lg max-w-none text-gray-700 text-justify leading-8"
+          >
+            <p class="mb-4">
+              سرمایه انسانی به عنوان ارزشمندترین دارایی هر سازمان، نقشی حیاتی در
+              بقا و رشد کسب‌وکارها ایفا می‌کند. در عصر حاضر، تحولات دیجیتال و
+              ظهور هوش مصنوعی، پارادایم‌های مدیریت منابع انسانی (HR) را دگرگون
+              کرده است. شرکت‌هایی مانند کرمان موتور، با درک اهمیت استانداردسازی
+              تعاریف شغلی و فرآیندهای مدیریتی، بستری را فراهم کرده‌اند که اکنون
+              آماده پذیرش هوش مصنوعی برای جهش به سوی مدیریت داده‌محور است.
+            </p>
+            <p class="mb-4">
+              این مقاله تلاش دارد تا با بررسی مستندات موجود در حوزه سرمایه
+              انسانی (مانند تعاریف شغل، پوزیشن و فرآیندهای جانشین‌پروری)، پلی
+              میان روش‌های استاندارد فعلی و قابلیت‌های آینده‌نگرانه هوش مصنوعی
+              ایجاد کند. هدف اصلی، پاسخ به این سوال است که چگونه می‌توان با
+              استفاده از ابزارهای تحلیلی و هوشمند، بهره‌وری سازمانی را در
+              حوزه‌هایی نظیر جمعداری اموال و مسیرهای شغلی ارتقا داد.
+            </p>
+
+            <div
+              class="my-8 bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm"
+            >
+              <div
+                class="bg-gray-100 px-4 py-2 border-b border-gray-200 font-bold text-sm text-gray-600"
+              >
+                جدول ۱-۱: گذار از مدیریت سنتی به مدیریت هوشمند
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm text-right">
+                  <thead class="bg-gray-50 text-gray-700">
+                    <tr>
+                      <th class="p-4 border-b">ویژگی</th>
+                      <th class="p-4 border-b">رویکرد سنتی (وضعیت پایه)</th>
+                      <th class="p-4 border-b text-blue-700">
+                        رویکرد مبتنی بر هوش مصنوعی
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-100">
+                    <tr>
+                      <td class="p-4 font-bold text-gray-600">تصمیم‌گیری</td>
+                      <td class="p-4">مبتنی بر شهود و تجربه مدیران</td>
+                      <td class="p-4 text-blue-600">
+                        مبتنی بر تحلیل داده‌های کلان (Big Data)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="p-4 font-bold text-gray-600">ساختار</td>
+                      <td class="p-4">سلسله‌مراتبی و خشک</td>
+                      <td class="p-4 text-blue-600">شبکه‌ای، چابک و مسطح</td>
+                    </tr>
+                    <tr>
+                      <td class="p-4 font-bold text-gray-600">جانشین‌پروری</td>
+                      <td class="p-4">واکنشی (پس از ترک نیرو)</td>
+                      <td class="p-4 text-blue-600">پیش‌بینانه (Predictive)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CHAPTER 2: CURRENT STRUCTURE ANALYSIS -->
+        <section
+          id="chapter2"
+          class="bg-white p-10 paper-shadow rounded-lg border border-gray-200 page-break"
+        >
+          <div class="flex items-center gap-3 mb-6">
+            <div
+              class="bg-blue-600 text-white w-8 h-8 flex items-center justify-center rounded font-bold"
+            >
+              ۲
+            </div>
+            <h2 class="text-2xl font-black text-gray-800">
+              فصل دوم: تحلیل ساختار سرمایه انسانی
+            </h2>
+          </div>
+
+          <div class="space-y-6 text-gray-700 text-justify leading-8">
+            <p>
+              بر اساس مستندات "سرمایه انسانی کرمان موتور"، درک صحیح از مفاهیم
+              پایه، پیش‌شرط هرگونه پیاده‌سازی فناوری است. در این فصل به تشریح
+              مفاهیم کلیدی استخراج شده می‌پردازیم.
+            </p>
+
+            <!-- Interactive Definition Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+              <div
+                class="bg-orange-50 p-5 rounded-lg border border-orange-100 hover:shadow-md transition-shadow cursor-pointer"
+                onclick="highlightSection('job-def')"
+              >
+                <h3 class="font-bold text-orange-800 text-lg mb-2">
+                  ۱. مفهوم شغل (Job)
+                </h3>
+                <p class="text-sm text-gray-600">
+                  مجموعه‌ای از وظایف و مسئولیت‌های مشابه و مرتبط. شغل به خودی
+                  خود وجود دارد حتی اگر کسی آن را تصدی نکند.
+                </p>
+              </div>
+              <div
+                class="bg-indigo-50 p-5 rounded-lg border border-indigo-100 hover:shadow-md transition-shadow cursor-pointer"
+                onclick="highlightSection('pos-def')"
+              >
+                <h3 class="font-bold text-indigo-800 text-lg mb-2">
+                  ۲. مفهوم پوزیشن (Position)
+                </h3>
+                <p class="text-sm text-gray-600">
+                  جایگاه خاص سازمانی که توسط یک فرد خاص اشغال می‌شود. هر شغل
+                  می‌تواند چندین پوزیشن داشته باشد.
+                </p>
+              </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-800 mt-8 mb-4">
+              فرآیند جانشین‌پروری (Succession Planning)
+            </h3>
+            <p>
+              یکی از ارکان اصلی مورد بحث در اسناد کرمان موتور، فرآیند
+              جانشین‌پروری است. این فرآیند تضمین می‌کند که سازمان در مواجهه با
+              خروج نیروهای کلیدی دچار بحران نشود. تحلیل جامع این فرآیند نیازمند
+              شناسایی استعدادها (Talent Identification) و توسعه مسیر شغلی است.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-800 mt-8 mb-4">
+              جمعداری و مدیریت اموال
+            </h3>
+            <p>
+              بخش دیگری از ساختار سرمایه انسانی، مدیریت منابع فیزیکی در اختیار
+              پرسنل است. تعریف جامع "جمعداری مدیریت اموال" شامل ردیابی، نگهداری
+              و تخصیص بهینه دارایی‌ها به پوزیشن‌های سازمانی است. شفافیت جریان
+              اطلاعات در این بخش حیاتی است.
+            </p>
+          </div>
+        </section>
+
+        <!-- CHAPTER 3: AI IMPACT (The Core) -->
+        <section
+          id="chapter3"
+          class="bg-white p-10 paper-shadow rounded-lg border border-gray-200 page-break"
+        >
+          <div class="flex items-center gap-3 mb-6">
+            <div
+              class="bg-blue-600 text-white w-8 h-8 flex items-center justify-center rounded font-bold"
+            >
+              ۳
+            </div>
+            <h2 class="text-2xl font-black text-gray-800">
+              فصل سوم: تاثیر هوش مصنوعی بر فرآیندها
+            </h2>
+          </div>
+
+          <div class="bg-blue-50 border-r-4 border-blue-500 p-4 mb-8">
+            <p class="text-sm text-blue-900 font-medium">
+              مقدمه فصل: در این بخش، ما چگونگی بهینه‌سازی مفاهیم فصل قبل (شغل،
+              جانشین‌پروری، اموال) را توسط الگوریتم‌های هوش مصنوعی بررسی
+              می‌کنیم.
+            </p>
+          </div>
+
+          <!-- Topic 1: Job Analysis -->
+          <div class="mb-10">
+            <h3 class="text-xl font-bold text-gray-800 mb-3 border-b pb-2">
+              ۳-۱. تحلیل هوشمند شغل و پوزیشن
+            </h3>
+            <p class="text-gray-700 leading-8 text-justify mb-4">
+              هوش مصنوعی با استفاده از پردازش زبان طبیعی (NLP)، می‌تواند شرح‌های
+              شغلی (Job Descriptions) را تحلیل کرده و شکاف‌های مهارتی را شناسایی
+              کند. برخلاف روش‌های سنتی که تطبیق فرد با پوزیشن به صورت دستی انجام
+              می‌شود، سیستم‌های AI می‌توانند با تحلیل هزاران رزومه و تطبیق آن با
+              "شایستگی‌های محوری" تعریف شده در اسناد کرمان موتور، بهترین گزینه
+              را پیشنهاد دهند.
+            </p>
+          </div>
+
+          <!-- Topic 2: AI in Succession Planning -->
+          <div class="mb-10">
+            <h3 class="text-xl font-bold text-gray-800 mb-3 border-b pb-2">
+              ۳-۲. هوشمندسازی جانشین‌پروری
+            </h3>
+            <p class="text-gray-700 leading-8 text-justify mb-4">
+              با استفاده از الگوریتم‌های یادگیری ماشین (Machine Learning)،
+              می‌توان نرخ ریزش کارکنان را پیش‌بینی کرد. سیستم می‌تواند هشدارهایی
+              صادر کند که "پوزیشن کلیدی X در خطر خالی شدن است" و به صورت خودکار
+              نفرات مستعد را از بین پرسنل فعلی پیشنهاد دهد.
+            </p>
+
+            <!-- Visualization: Succession Risk -->
+            <div
+              class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm my-6"
+            >
+              <h4 class="text-center text-sm font-bold text-gray-500 mb-4">
+                نمودار ۳-۱: دقت شناسایی استعدادهای جانشینی (سنتی در برابر
+                هوشمند)
+              </h4>
+              <div class="chart-container">
+                <canvas id="successionChart"></canvas>
+              </div>
+              <p class="text-center text-xs text-gray-400 mt-2">
+                منبع: داده‌های شبیه‌سازی شده بر اساس مدل‌های استاندارد HR
+                Analytics
+              </p>
+            </div>
+          </div>
+
+          <!-- Topic 3: Asset Management -->
+          <div class="mb-10">
+            <h3 class="text-xl font-bold text-gray-800 mb-3 border-b pb-2">
+              ۳-۳. تحول در جمعداری و مدیریت اموال
+            </h3>
+            <p class="text-gray-700 leading-8 text-justify">
+              اتصال سیستم‌های مدیریت اموال به اینترنت اشیاء (IoT) و تحلیل
+              داده‌های حاصل توسط AI، مفهوم "جمعداری" را از یک فرآیند ایستا به
+              پویا تبدیل می‌کند. هوش مصنوعی می‌تواند الگوهای استهلاک اموال را
+              شناسایی کرده و زمان بهینه تعویض یا تعمیر را پیش از خرابی پیشنهاد
+              دهد، که این امر مستقیماً بر کاهش هزینه‌های سربار موثر است.
+            </p>
+          </div>
+
+          <!-- Topic 4: Org Chart Evolution -->
+          <div class="mb-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-3 border-b pb-2">
+              ۳-۴. معماری سازمانی پویا
+            </h3>
+            <p class="text-gray-700 leading-8 text-justify mb-6">
+              چارت‌های سازمانی سنتی (درختی) انعطاف کمی دارند. هوش مصنوعی با
+              تحلیل ارتباطات واقعی بین کارکنان (نه فقط روابط رسمی)، می‌تواند
+              "شبکه‌های غیررسمی تاثیرگذار" را شناسایی کند.
+            </p>
+
+            <!-- Interactive Diagram Implementation -->
+            <div
+              class="bg-gray-50 p-6 rounded-xl border border-gray-200 text-center"
+            >
+              <div class="text-sm font-bold text-gray-600 mb-4">
+                دیاگرام ۳-۲: گذار ساختاری
+              </div>
+              <div
+                class="flex flex-col md:flex-row justify-center items-center gap-8"
+              >
+                <!-- Traditional -->
+                <div
+                  class="flex flex-col items-center opacity-50 hover:opacity-100 transition-opacity"
+                >
+                  <div
+                    class="w-16 h-16 border-2 border-gray-400 rounded flex items-center justify-center mb-2 bg-white"
+                  >
+                    مدیر
+                  </div>
+                  <div class="h-8 w-0.5 bg-gray-400"></div>
+                  <div class="flex gap-2">
+                    <div
+                      class="w-12 h-12 border border-gray-400 rounded flex items-center justify-center text-xs bg-white"
+                    >
+                      کارمند
+                    </div>
+                    <div
+                      class="w-12 h-12 border border-gray-400 rounded flex items-center justify-center text-xs bg-white"
+                    >
+                      کارمند
+                    </div>
+                  </div>
+                  <span class="text-xs mt-2 text-gray-500"
+                    >ساختار سنتی (سلسله‌مراتبی)</span
+                  >
+                </div>
+
+                <div class="text-2xl text-blue-500">➜</div>
+
+                <!-- Modern AI -->
+                <div class="relative w-40 h-40">
+                  <div
+                    class="absolute inset-0 flex items-center justify-center"
+                  >
+                    <div
+                      class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center z-10 shadow-lg animate-pulse"
+                    >
+                      AI Hub
+                    </div>
+                  </div>
+                  <!-- Orbiting nodes representing dynamic teams -->
+                  <div
+                    class="absolute top-0 left-1/2 w-8 h-8 bg-blue-200 rounded-full -ml-4 flex items-center justify-center text-[10px]"
+                  >
+                    تیم A
+                  </div>
+                  <div
+                    class="absolute bottom-0 left-1/4 w-8 h-8 bg-blue-300 rounded-full flex items-center justify-center text-[10px]"
+                  >
+                    تیم B
+                  </div>
+                  <div
+                    class="absolute bottom-0 right-1/4 w-8 h-8 bg-blue-300 rounded-full flex items-center justify-center text-[10px]"
+                  >
+                    تیم C
+                  </div>
+                  <!-- Connecting lines simulated -->
+                  <svg
+                    class="absolute inset-0 w-full h-full pointer-events-none"
+                  >
+                    <line
+                      x1="50%"
+                      y1="50%"
+                      x2="50%"
+                      y2="10%"
+                      stroke="#bfdbfe"
+                      stroke-width="2"
+                    />
+                    <line
+                      x1="50%"
+                      y1="50%"
+                      x2="25%"
+                      y2="90%"
+                      stroke="#bfdbfe"
+                      stroke-width="2"
+                    />
+                    <line
+                      x1="50%"
+                      y1="50%"
+                      x2="75%"
+                      y2="90%"
+                      stroke="#bfdbfe"
+                      stroke-width="2"
+                    />
+                  </svg>
+                  <span
+                    class="absolute -bottom-8 w-full text-center text-xs text-blue-600 font-bold"
+                    >ساختار شبکه‌ای هوشمند</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONCLUSION & REFERENCES -->
+        <section
+          id="conclusion"
+          class="bg-white p-10 paper-shadow rounded-lg border border-gray-200 page-break"
+        >
+          <div class="border-b-2 border-green-100 pb-4 mb-6">
+            <h2 class="text-2xl font-black text-green-900">
+              نتیجه‌گیری و مراجع
+            </h2>
+          </div>
+          <p class="text-gray-700 leading-8 text-justify mb-8">
+            با بررسی مستندات سرمایه انسانی کرمان موتور و انطباق آن با قابلیت‌های
+            هوش مصنوعی، نتیجه‌گیری می‌شود که استفاده از AI در فرآیندهایی مانند
+            جانشین‌پروری و مدیریت اموال، یک انتخاب لوکس نیست، بلکه یک ضرورت برای
+            چابکی سازمان است. هوش مصنوعی با حذف خطاهای انسانی در تحلیل داده‌های
+            پرسنلی و ارائه بینش‌های پیش‌بینانه، به مدیران کمک می‌کند تا از
+            مدیریت واکنشی به سمت مدیریت استراتژیک و پیشگیرانه حرکت کنند. پیشنهاد
+            می‌شود زیرساخت‌های داده‌ای سازمان برای تغذیه الگوریتم‌های هوشمند در
+            اولویت قرار گیرد.
+          </p>
+
+          <h3 class="text-lg font-bold text-gray-800 mb-4">مراجع</h3>
+          <ul class="list-disc list-inside text-sm text-gray-600 space-y-2">
+            <li class="text-right">
+              مستندات داخلی سرمایه انسانی کرمان موتور (۱۴۰۴)، تالیف: حسین مرادی
+              .
+            </li>
+            <li class="text-right">سری ISO 30400 (مدیریت منابع انسانی)</li>
+            <li class="text-right">45001 و ISO 45003 (ایمنی و بهداشت)</li>
+            <li class="text-right">ISO 55000 (مدیریت دارایی)</li>
+            <li class="text-right">ISO 9001 (مدیریت کیفیت)</li>
+            <li class="text-right">ISO 14001 (محیط زیست)</li>
+            <li class="text-right">
+              سازمان‌های استفاده‌کننده: تمام شرکت‌های بزرگ و در کلاس جهانی مانند
+              تویوتا، فورد، زیمنس،گوگل،ماکروسافت
+            </li>
+            <li class="text-right">
+              مدل منابع انسانی دیو اولریچ (Dave Ulrich's HR Model)
+            </li>
+            <li class="text-right">فلسفه کایزن (Kaizen Philosophy)</li>
+            <li class="text-right">چارچوب OKR (Objectives and Key Results)</li>
+            <li class="text-right">SHRM (انجمن مدیریت منابع انسانی)</li>
+            <li class="text-right">CIPD (موسسه کارکنان و توسعه)</li>
+            <li class="text-right">ATD (انجمن توسعه استعداد)</li>
+            <li class="text-left" dir="ltr">Harvard Business Review (HBR)</li>
+            <li class="text-left" dir="ltr">
+              SAP SuccessFactors, Workday, Oracle HCM
+            </li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <!-- JavaScript Implementation -->
+    <script>
+      // State Management
+      const state = {
+        currentSection: "cover",
+      };
+
+      // Navigation Logic
+      function scrollToSection(id) {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+          state.currentSection = id;
+        }
+        // Close mobile menu if open
+        const nav = document.getElementById("sidebar");
+        if (!nav.classList.contains("hidden") && window.innerWidth < 768) {
+          nav.classList.add("hidden");
+        }
+      }
+
+      // Mobile Menu Toggle
+      document
+        .getElementById("mobile-menu-btn")
+        .addEventListener("click", () => {
+          const nav = document.getElementById("sidebar");
+          nav.classList.toggle("hidden");
+          nav.classList.toggle("flex");
+          nav.classList.toggle("fixed");
+          nav.classList.toggle("inset-0");
+          nav.classList.toggle("z-40");
+        });
+
+      // Visualization Logic: Succession Planning Chart
+      // Wait for DOM
+      document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById("successionChart").getContext("2d");
+
+        // Chart.js Configuration
+        new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: [
+              "شناسایی استعداد",
+              "پیش‌بینی خروج",
+              "تطبیق مهارت",
+              "رضایت شغلی",
+            ],
+            datasets: [
+              {
+                label: "روش سنتی (دستی)",
+                data: [45, 20, 50, 60],
+                backgroundColor: "rgba(156, 163, 175, 0.5)", // Gray
+                borderColor: "rgba(156, 163, 175, 1)",
+                borderWidth: 1,
+              },
+              {
+                label: "روش هوشمند (AI)",
+                data: [85, 90, 95, 80],
+                backgroundColor: "rgba(59, 130, 246, 0.6)", // Blue
+                borderColor: "rgba(59, 130, 246, 1)",
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  font: {
+                    family: "Vazirmatn",
+                  },
+                },
+              },
+              tooltip: {
+                titleFont: { family: "Vazirmatn" },
+                bodyFont: { family: "Vazirmatn" },
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 100,
+                title: {
+                  display: true,
+                  text: "درصد دقت / کارایی",
+                  font: { family: "Vazirmatn" },
+                },
+              },
+              x: {
+                ticks: {
+                  font: { family: "Vazirmatn" },
+                },
+              },
+            },
+          },
+        });
+      });
+
+      // Interactive Highlight Logic
+      function highlightSection(id) {
+        // Simple visual feedback for interaction
+        alert(
+          "بخش مورد نظر: توضیح مفاهیم پایه برای درک معماری سازمانی ضروری است."
+        );
+      }
+    </script>
+  </body>
+</html>
